@@ -13,4 +13,8 @@ class Company extends Model
     public function listings(){
         return $this->hasMany(Listing::class, 'company_id');
     }
+    //Relationship to company_image
+    public function company_image(){
+        return $this->hasMany(CompanyImage::class, 'company_id');
+    }
 }

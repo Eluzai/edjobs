@@ -21,24 +21,19 @@ class UserController extends Controller
             'email' => ['required','email', Rule::unique('users', 'email')],
             'password' => ['required','confirmed', 'min:6'] 
         ]);
-        
-        // if ($request->get('image')=='') {
-        //     $formFields['image'] = 'default_image';
-        // }
-        // if ($request->get('subscribe')==NULL) {
-        //     $formFields['subscribe'] = 'NO';
-        // }else {
-        //     $formFields['subscribe'] = 'YES';
-        // }
 
-        //Hash password
+        if ($request->has('subscribe')) {
+            $formFields['subscribe'] = 'YES';
+        }else {
+            $formFields['subscribe'] = 'NO';
+        }
+
+        // //Hash password
         $formFields['password'] = bcrypt($formFields['password']);
-        //create user
+        
+        // //create user
         User::create($formFields);
-        //$user = User::create($formFields);
-        //Login new user
-        //auth()->login($user);
-        //return dd($formFields);
+        
     }
 
     //show login form

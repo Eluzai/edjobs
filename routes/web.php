@@ -38,4 +38,4 @@ Route::get('/signup', [UserController::class, 'create']);
 Route::post('/users', [UserController::class, 'store']);
 
 //show login form
-Route::get('/login', [UserController::class, 'login']);
+//Route::get('/login', [UserController::class, 'login']);

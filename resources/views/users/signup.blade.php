@@ -5,13 +5,13 @@
         <div class="wow fadeInUp" data-wow-delay="0.5s">
             <p class="mb-4 text-center"> Sign up to post and find your next teaching jobs </p>
             
-            <form action="/users" method="POST">
+            <form method="POST" action="/users">
                 @csrf
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input type="text" class="form-control" name="fname" id="fname" placeholder="Your First Name">
-                            <label for="name">First Name</label>
+                            <label for="fname">First Name</label>
                         </div>
                     </div>
                     <div class="col-md-6">
