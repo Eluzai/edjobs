@@ -27,15 +27,17 @@ use App\Http\Controllers\CompanyController;
 
 
 Route::get('/', [ListingController::class, 'index']);
-//////////////////////////////////////////////////////////
+
 Route::get('/details', function () {
     return view('details');
 });
 //////////////////////User Signup Routes//////////////////////////////
+
 //show signup form
 Route::get('/signup', [UserController::class, 'create']);
+
 //create user
-Route::post('/users', [UserController::class, 'store']);
+Route::post('users', [UserController::class, 'store']);
 
 //show login form
 //Route::get('/login', [UserController::class, 'login']);

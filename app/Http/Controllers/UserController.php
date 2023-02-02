@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Models\User;
 use Dotenv\Parser\Value;
 
@@ -15,25 +13,25 @@ class UserController extends Controller
     }
     //Store form fields to database
     public function store(Request $request){
-        $formFields = $request->validate([
-            'fname' => ['required','min:2'],
-            'lname' => ['required','min:3'],
-            'email' => ['required','email', Rule::unique('users', 'email')],
-            'password' => ['required','confirmed', 'min:6'] 
-        ]);
+        $chkUser = User::where('email', '=', $request->input('email'))->first();
+        if ($chkUser) {
+            return 1;
+        }else{
+            $user = new User;
+            $user->firstname = $request->fname;
+            $user->lastname = $request->lname;
+            $user->email = $request->email;
+            $user->image = 'default';
+            if ($request->has('subscribe')) {
+                $user->subscribe = 'YES';
+            }else {
+                $user->subscribe = 'NO';
+            }
+            $user->password = bcrypt($request->password);
+            $user->save();
 
-        if ($request->has('subscribe')) {
-            $formFields['subscribe'] = 'YES';
-        }else {
-            $formFields['subscribe'] = 'NO';
+            
         }
-
-        // //Hash password
-        $formFields['password'] = bcrypt($formFields['password']);
-        
-        // //create user
-        User::create($formFields);
-        
     }
 
     //show login form
