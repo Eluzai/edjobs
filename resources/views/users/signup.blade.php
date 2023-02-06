@@ -15,7 +15,7 @@
         <div class="wow fadeInUp" data-wow-delay="0.5s">
             <p class="mb-4 text-center"> Sign up to post and find your next teaching jobs </p>
 
-            <div class="alert alert-success" role="alert" id="suc-msg" style="color:#fff"></div>
+            <div class="alert alert-success" role="alert" id="suc-msg"></div>
             <div class="alert alert-warning" role="alert" id="err"></div>
 
             <form method="POST" action="users" id="sForm">
@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-12">
                         <div class="form-floating">
-                            Already registered? <a href="/login">Login</a> 
+                            Already registered? <a href="/login">Login</a> | <a href="/dashboard">Dashboard</a>
                         </div>
                     </div>
                 </div>

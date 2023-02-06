@@ -29,14 +29,34 @@ class UserController extends Controller
             }
             $user->password = bcrypt($request->password);
             $user->save();
-
-            
+            auth()->login($user);
         }
+    }
+
+    //show login form
+    public function index(){
+        return view('users.page');
     }
 
     //show login form
     public function login(){
         return view('users.login');
     }
+
+    //Authenticate User
+    public function authenticate(Request $request){
+        $formFields = $request->validate([
+            'email' => ['required','email'],
+            'password' => 'required'
+        ]);
+        if (auth()->attempt($formFields)) {
+            $request->session()->regenerate();
+            return redirect('/')->with('message', 'You are now logged in');
+        }
+        return back()->withErrors(['email'=>'Invalid credentials'])->onlyInput('email');
+        
+    }
+
+   
 
 }

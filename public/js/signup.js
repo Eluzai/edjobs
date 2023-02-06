@@ -46,7 +46,7 @@ $(document).ready(function(){
         }else if (!isValidEmail(email)) {
             $("#mail-msg").html("enter a valid email");
             $('#mail-msg').css('padding-top','.5em');
-             $('#email').css('border','thin solid #FF602F');
+            $('#email').css('border','thin solid #FF602F');
             $("#mail-msg").focus();
             return false;
         }else{
@@ -114,8 +114,8 @@ $(document).ready(function(){
         fd.append('password',$('#password').val());
 
         $.ajax({
-            url: "users", // Url to which the request is send
-            type: "POST",             // Type of request to be send, called as method
+            url: "users", // form action
+            type: "POST",             // form method
             data: fd, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
             contentType: false,       // The content type used when sending data to the server.
             cache: false,             // To unable request pages to be cached
@@ -123,16 +123,18 @@ $(document).ready(function(){
             success: function(data){   
             // A function to be called if request succeeds
                 if (data==1) {
-                    $('#err').css('display','block');
                     $('#suc-msg').css('display','none');
-                    $("#err").html('Matching record found. Proceed to login?');
+                    $('#mail-msg').html('Email address has been taken');
+                    $('#email').css('border','thin solid #FF602F');
+                    $("#mail-msg").focus();
                 }else{
-                    $('#err').css('display','none');
+                    $('#mail-msg').css('display','none');
+                    $('#email').css('border','thin solid #ced4da');
                     $('#suc-msg').css('display','block');
                     $("#suc-msg").html($('#fname').val() + ' verify your mail to complete registration');
                     $('#sForm').prop("disabled", true);
                     setInterval(function () {
-                        window.location.href = "/";
+                        window.location.href = "/dashboard";
                     },5000);
                 }
             }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,13 +32,24 @@ Route::get('/', [ListingController::class, 'index']);
 Route::get('/details', function () {
     return view('details');
 });
+
 //////////////////////User Signup Routes//////////////////////////////
 
 //show signup form
 Route::get('/signup', [UserController::class, 'create']);
 
 //create user
-Route::post('users', [UserController::class, 'store']);
+Route::post('/users', [UserController::class, 'store']);
+// Show user dashboard
+Route::get('/dashboard', [UserController::class, 'index']);
+
+Auth::routes([
+    'verify' => TRUE,
+]);
 
 //show login form
 //Route::get('/login', [UserController::class, 'login']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
