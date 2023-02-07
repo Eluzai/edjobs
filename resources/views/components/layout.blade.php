@@ -52,8 +52,24 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <a href="/" class="nav-item nav-link active">Home</a>
+                    @auth
+                        <a href="/listings/manage" class="nav-item nav-link">
+                            Job listing <i class="fab fa-solid fa-list"></i> 
+                        </a>
+                        <a href="/logout" class="nav-item nav-link">
+                            Logout <i class="fas fa-sign-out-alt"></i> 
+                        </a>
+                    @else
+                        <a href="/signup" class="nav-item nav-link"> 
+                            SignUp <i class="fa-solid fa-user-plus"></i> 
+                        </a>
+                        <a href="/signin" class="nav-item nav-link">
+                            Login <i class="fa-solid fa-arrow-right-to-bracket"></i> 
+                        </a>
+                    @endauth
+
                     {{-- <a href="about.html" class="nav-item nav-link">About</a> --}}
-                    <a href="/signup" class="nav-item nav-link">SignUp <i class="fa-solid fa-user-plus"></i> </a>
+                    
                     {{-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -70,7 +86,7 @@
                         </div>
                     </div> 
                     <a href="contact.html" class="nav-item nav-link">Contact</a> --}}
-                    <a href="/login" class="nav-item nav-link">Login <i class="fa-solid fa-arrow-right-to-bracket"></i> </a>
+                    
                 </div>
                 <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
             </div>

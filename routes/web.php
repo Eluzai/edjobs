@@ -41,15 +41,17 @@ Route::get('/signup', [UserController::class, 'create']);
 //create user
 Route::post('/users', [UserController::class, 'store']);
 // Show user dashboard
-Route::get('/dashboard', [UserController::class, 'index']);
+Route::get('/dashboard', [UserController::class, 'index'])->middleware('auth');
 
 Auth::routes([
     'verify' => TRUE,
 ]);
 
 //show login form
-//Route::get('/login', [UserController::class, 'login']);
+Route::get('/signin', [UserController::class, 'login']);
+Route::post('/userlogin', [UserController::class, 'authenticate']);
 
-Auth::routes();
+//log out
+//Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+Route::get('/logout', [UserController::class,'logout']);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

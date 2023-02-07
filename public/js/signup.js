@@ -115,19 +115,18 @@ $(document).ready(function(){
 
         $.ajax({
             url: "users", // form action
-            type: "POST",             // form method
+            type: "POST", // form method
             data: fd, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-            contentType: false,       // The content type used when sending data to the server.
-            cache: false,             // To unable request pages to be cached
-            processData:false,        // To send DOMDocument or non processed data file it is set to false
-            success: function(data){   
-            // A function to be called if request succeeds
-                if (data==1) {
+            contentType: false, // The content type used when sending data to the server.
+            cache: false, // To unable request pages to be cached
+            processData: false, // To send DOM Document or non processed data file it is set to false
+            success: function(data){ // A function to be called if request succeeds
+                if (data==0) {
                     $('#suc-msg').css('display','none');
                     $('#mail-msg').html('Email address has been taken');
                     $('#email').css('border','thin solid #FF602F');
                     $("#mail-msg").focus();
-                }else{
+                }else if (data==1) {
                     $('#mail-msg').css('display','none');
                     $('#email').css('border','thin solid #ced4da');
                     $('#suc-msg').css('display','block');

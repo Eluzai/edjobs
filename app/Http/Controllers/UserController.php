@@ -15,7 +15,7 @@ class UserController extends Controller
     public function store(Request $request){
         $chkUser = User::where('email', '=', $request->input('email'))->first();
         if ($chkUser) {
-            return 1;
+            return 0;
         }else{
             $user = new User;
             $user->firstname = $request->fname;
@@ -23,13 +23,14 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->image = 'default';
             if ($request->has('subscribe')) {
-                $user->subscribe = 'YES';
+                $user->subscribe = 'subscribed';
             }else {
-                $user->subscribe = 'NO';
+                $user->subscribe = 'unsubscribed';
             }
             $user->password = bcrypt($request->password);
             $user->save();
             auth()->login($user);
+            return 1;
         }
     }
 
@@ -40,23 +41,22 @@ class UserController extends Controller
 
     //show login form
     public function login(){
-        return view('users.login');
+        return view('users.signin');
     }
 
     //Authenticate User
     public function authenticate(Request $request){
-        $formFields = $request->validate([
-            'email' => ['required','email'],
-            'password' => 'required'
-        ]);
-        if (auth()->attempt($formFields)) {
-            $request->session()->regenerate();
-            return redirect('/')->with('message', 'You are now logged in');
+        if (auth()->attempt(array('email'=>$request->email, 'password'=>$request->password))) {
+            //$request->session()->regenerate();
+            return response()->json([ [1] ]);
+        } else {
+            return response()->json([ [0] ]);
         }
-        return back()->withErrors(['email'=>'Invalid credentials'])->onlyInput('email');
         
     }
 
-   
-
+    public function logout(){
+        auth()->logout();
+        return redirect('/signin');
+    }
 }
