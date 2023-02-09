@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route naming conventions to follow
-//common Resource Routes for any project
+//common Resource Routes naming conventions to follow for any project
 //Index - Show all listings 
 //show - Show single listing
 //create - Show form to create new listing
@@ -40,18 +39,25 @@ Route::get('/signup', [UserController::class, 'create']);
 
 //create user
 Route::post('/users', [UserController::class, 'store']);
-// Show user dashboard
-Route::get('/dashboard', [UserController::class, 'index'])->middleware('auth');
 
-Auth::routes([
-    'verify' => TRUE,
-]);
+Auth::routes(['verify' => TRUE,]);
 
 //show login form
 Route::get('/signin', [UserController::class, 'login']);
+
+// attempt login
 Route::post('/userlogin', [UserController::class, 'authenticate']);
 
+// Show user dashboard
+Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware('auth');
+
+// show update user 
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth');
+
+// update user
+Route::put('/users/{user}', [UserController::class, 'update'])->name('user_update')->middleware('auth');
+
 //log out
-//Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-Route::get('/logout', [UserController::class,'logout']);
+Route::get('/logout', [UserController::class,'logout'])->middleware('auth');
+
 

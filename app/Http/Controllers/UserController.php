@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Dotenv\Parser\Value;
+use Mail;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
     //show sign up form
-    public function create(){
+    public function create(User $user){
         return view('users.signup');
     }
     //Store form fields to database
@@ -29,14 +31,13 @@ class UserController extends Controller
             }
             $user->password = bcrypt($request->password);
             $user->save();
+            // Mail::send('email.emailVerificationEmail', ['token' => $token], function($message) use($request){
+            //     $message->to($request->email);
+            //     $message->subject('Email Verification Mail');
+            // });
             auth()->login($user);
             return 1;
         }
-    }
-
-    //show login form
-    public function index(){
-        return view('users.page');
     }
 
     //show login form
@@ -45,9 +46,9 @@ class UserController extends Controller
     }
 
     //Authenticate User
-    public function authenticate(Request $request){
+    public function authenticate(Request $request, User $user){
         if (auth()->attempt(array('email'=>$request->email, 'password'=>$request->password))) {
-            //$request->session()->regenerate();
+            $request->session()->regenerate();
             return response()->json([ [1] ]);
         } else {
             return response()->json([ [0] ]);
@@ -55,8 +56,60 @@ class UserController extends Controller
         
     }
 
+    //show user dashboard 
+    public function dashboard(){
+        return view('users.dashboard');
+    }
+
+    //show user dashboard 
+    public function edit(User $user){
+        return view('users.editUser',[
+            'user' => $user
+        ]);
+    }
+
+    //update user data
+    public function update(Request $request, User $user){
+        if ($user->id != auth()->user()->id) {
+            abort('403','Unauthorized Action');
+        }
+        $formFields = array(
+            'firstname' => $request->fname,
+            'lastname' => $request->lname,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        );
+        # check if the request has profile image
+        if ($request->hasFile('formFile')) {
+            $file = $request->file('formFile');
+            $ext = $file->getClientOriginalExtension();
+            $allow_ext = array('jpg','jpeg','png');
+            if (in_array($ext, $allow_ext)) {
+                $new_name = strtolower('user'.$user->id.'.'.$ext);
+                $imagePath = 'storage/app/pulic/profile_image'.$new_name;
+                # check whether the image exists in the directory
+                if (File::exists($imagePath)) {
+                    # delete image
+                    File::delete($imagePath);
+                } else {
+                    $request->file('formFile')->storeAs('public/profile_images', $new_name);
+                    $formFields['image'] = 'storage/profile_images/'.$new_name;
+                }
+            }
+        }
+        if ($request->has('subscribe')) {
+            $formFields['subscribe'] = 'subscribed';
+        } else {
+            $formFields['subscribe'] = 'unsubscribed';
+        }
+        $user->update($formFields);
+        return response()->json([ [1] ]);
+    }
+
+    // to log user out
     public function logout(){
         auth()->logout();
         return redirect('/signin');
     }
+    
 }

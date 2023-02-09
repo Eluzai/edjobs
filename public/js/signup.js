@@ -134,7 +134,7 @@ $(document).ready(function(){
                     $('#sForm').prop("disabled", true);
                     setInterval(function () {
                         window.location.href = "/dashboard";
-                    },5000);
+                    },3000);
                 }
             }
         });

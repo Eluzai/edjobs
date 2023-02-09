@@ -9,6 +9,7 @@
 ## php artisan make:model Modelname //this command is used to create a model. Note the name of the model must be sentence case ie the first letter of the name must be in capital letter.
 ## php artisan make:factory ListingFactory //this command creates a factory file which serves as a model for the seeder file. There you create the structure of the data you want to seed to your db. in the DBSeeder file, you call this factory file to generate random records for you.
 ## php artisan storage:link //this links the file storage folder to the view. The storage is laravel's default location for all uploaded files. 
+## php artisan make::controller ListingController --resource --model=Listing // to create a resource controller
 
 
 # List of Frequently Used Git Commands.

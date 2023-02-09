@@ -1,19 +1,4 @@
 <style>
-    .profile{
-        float: left;
-        margin-right: 1em;
-        width: 45%;
-        line-height: 2em;
-    }
-    .profile img{
-        width: 40%;
-        float: right;
-    }
-    .pfoot{
-        width: 100%;
-        float: none;
-        clear: both;
-    }
     .has-err{
       border: thin solid #FF602F;
     }
@@ -26,72 +11,17 @@
 <x-layout>
     <div class="container-xxl py-5">
         <div class="container">
-            <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
-                Welcome, {{ auth()->user()->firstname }}
-            </h1>
-            <div class="row g-4">
-                <div class="col-12">
-                    <div class="row gy-4">
-                        <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
-                            <div class="d-flex align-items-center bg-light rounded p-4">
-                                <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
-                                    <i class="fa fa-home text-primary"></i>
-                                </div>
-                                <a href=""><div><strong>Dashboard</strong></div></a>
-                            </div>
-                        </div>
-                        <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
-                            <div class="d-flex align-items-center bg-light rounded p-4">
-                                <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
-                                    <i class="fa fa-gear text-primary"></i>
-                                </div>
-                                <a href=""><div><strong>Manage profile</strong></div></a>
-                            </div>
-                        </div>
-                        <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
-                            <div class="d-flex align-items-center bg-light rounded p-4">
-                                <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
-                                    <i class="fa fa-gear text-primary"></i>
-                                </div>
-                                <a href=""><div><strong>Manage job listing</strong></div></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-xxl py-5">
-        <div class="container">
             <div class="row g-5">
-                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                    <h4 class="mb-4"> Post</h4>
-                    <strong> Job listing </strong><hr>
-                    <strong> Company </strong><hr>
-                </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                    <h4 class="mb-4"> Profile</h4>
-                    <div class="profile">
-                        <ul style="list-style: none;" class="list-group" id="user-info">
-                            <li><Strong><i class="fa-solid fa-user-circle text-success"></i> Name</Strong> {{ auth()->user()->firstname }} {{ auth()->user()->lastname }}</li>
-                            <li><Strong><i class="fa fa-envelope text-success"></i> Email</Strong> {{ auth()->user()->email }}</li>
-                            <li><Strong><i class="fas fa-newspaper text-success"></i> Newsletter</Strong> {{ auth()->user()->subscribe }}</li>
-                        </ul>
-                        
-                    </div>
+                    <h4 class="mb-4"> Edit Profile {{ $user->firstname }} </h4>
                     
-                    <div class="profile">
-                        @if (auth()->user()->image == 'default')
-                            <img class="img-fluid w-10" src="img/placeholder.png">
-                        @else
-                            <img class="img-fluid w-10" src="{{ $list->logo ? asset('storage/'.$list->logo) : asset('images/placeholder.png') }}" alt="">
-                        @endif
-                    </div>
                     <div id="edBlock">
+                        
                         <div id="logmsg"></div>
-                        <form method="POST" action="/dashboard" id="edForm">
+                        <form method="POST" action="/users/{{ $user->id }}" id="edForm" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
+                            
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
@@ -139,13 +69,10 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit" id="btnsave" name="btnsave">Save</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit" id="btnsave" name="btnsave"> <i class="fas fa-save"></i> Save</button>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="pfoot">
-                        <button class="btn btn-success" onclick="edit()" id="edbtn"><i class="fas fa-edit"></i> Edit</a>
                     </div>
                 </div>
             </div>
@@ -153,15 +80,17 @@
     </div>
 </x-layout>
 <script>
-    $("#edBlock").hide();
-    $("#edbtn").click(function(){
-        $(".profile").hide();
-        $("#edbtn").hide();
-        $("#edBlock").show();
-    });
-
     $(document).ready(function(){
         $("#btnsave").click(function(){
+            // image preview
+            $("#formFile").change(function(){
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    $("#image_preview_container").attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            })
+
             if ($('#fname').val()=='') {
                 $('#fname').addClass('has-err');
                 $('#fname-msg').html('Firstname required');
@@ -200,24 +129,24 @@
                 return false;
             } else { 
                 var fd = $("#edForm").serialize();
-                alert(fd);
-                // $.ajaxSetup({
-                //     headers:{ // to set the CSRF token
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-                //     }
-                // });
-                // $.ajax({
-                //     type: "POST", // form method
-                //     url: "dashboard", // form action
-                //     data: fd,
-                //     success: function(response){ // A function to be called if request succeeds
-                //         if (response == 1) {
-                //             $(".profile").show();
-                //             $("#edbtn").show();
-                //             $("#edBlock").hide();
-                //         } 
-                //     }
-                // });
+                $.ajaxSetup({
+                    headers:{ // to set the CSRF token
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+                    }
+                });
+                $.ajax({
+                    type: "POST", // form method
+                    url: "/users/{{ $user->id }}", // form action
+                    data: fd, // form data
+                    success: function(response){ // A function to be called if request succeeds
+                        if (response == 1) {
+                            // $(".profile").show();
+                            // $("#edbtn").show();
+                            // $("#edBlock").hide();
+                            window.location.href = "/dashboard";
+                        } 
+                    }
+                });
                 $("#fname, #lname, #email, #password").removeClass('has-err');
                 $('#fname-msg, #lname-msg, #mail-msg, #pword-msg').removeClass('err');
                 $('#fname-msg, #lname-msg, #mail-msg, #pword-msg').html('');
