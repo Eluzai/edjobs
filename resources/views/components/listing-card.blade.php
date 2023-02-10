@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn btn-primary py-3 px-5" href="">Browse More Jobs</a>
+                        <a class="btn btn-primary py-3 px-5" href="">All Listing</a>
                     </div>
                 </div>
             </div>

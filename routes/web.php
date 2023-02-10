@@ -43,7 +43,7 @@ Route::post('/users', [UserController::class, 'store']);
 Auth::routes(['verify' => TRUE,]);
 
 //show login form
-Route::get('/signin', [UserController::class, 'login']);
+Route::get('/signin', [UserController::class, 'login'])->name('login');
 
 // attempt login
 Route::post('/userlogin', [UserController::class, 'authenticate']);

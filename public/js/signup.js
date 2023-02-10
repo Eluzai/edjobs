@@ -65,7 +65,7 @@ $(document).ready(function(){
             $('#password').css('border','thin solid #FF602F');
             $("#password").focus();
         } else if (pword.length < 6) {
-            $('#pword-msg').html("Password less than 8 characters");
+            $('#pword-msg').html("Password less than 6 characters");
             $('#pword-msg').css('padding-top','.5em');
             $('#password').css('border','thin solid #FF602F');
             $("#password").focus();

@@ -6,21 +6,31 @@
         line-height: 2em;
     }
     .profile img{
-        width: 40%;
+        width: 50%;
         float: right;
+        margin-top: -10px; 
+        clip-path: circle();
     }
     .pfoot{
         width: 100%;
         float: none;
         clear: both;
     }
+    /* .circular--landscape { 
+        display: inline-block; 
+        position: relative; 
+        width: 150px; height: 150px; 
+        overflow: hidden; 
+        border-radius: 50%; 
+    } 
+    .circular--landscape img { width: auto; height: 100%; margin-left: 0px; } */
     
 </style>
 <x-layout>
     <div class="container-xxl py-5">
         <div class="container">
             <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
-                Welcome, {{ auth()->user()->firstname }}
+                Dashboard
             </h1>
             <div class="row g-4">
                 <div class="col-12">
@@ -28,9 +38,17 @@
                         <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
                             <div class="d-flex align-items-center bg-light rounded p-4">
                                 <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
+                                    <i class="fa fa-globe text-primary"></i>
+                                </div>
+                                <a href=""><div><strong>Browse Company list</strong></div></a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
+                            <div class="d-flex align-items-center bg-light rounded p-4">
+                                <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
                                     <i class="fa fa-home text-primary"></i>
                                 </div>
-                                <a href=""><div><strong>Dashboard</strong></div></a>
+                                <a href=""><div><strong>Manage Job Post</strong></div></a>
                             </div>
                         </div>
                         <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
@@ -38,15 +56,7 @@
                                 <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
                                     <i class="fa fa-gear text-primary"></i>
                                 </div>
-                                <a href=""><div><strong>Manage profile</strong></div></a>
-                            </div>
-                        </div>
-                        <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
-                            <div class="d-flex align-items-center bg-light rounded p-4">
-                                <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
-                                    <i class="fa fa-gear text-primary"></i>
-                                </div>
-                                <a href=""><div><strong>Manage job listing</strong></div></a>
+                                <a href=""><div><strong>Build Profile</strong></div></a>
                             </div>
                         </div>
                     </div>
@@ -71,7 +81,6 @@
                             <li><Strong><i class="fa fa-envelope text-success"></i> Email</Strong> {{ auth()->user()->email }}</li>
                             <li><Strong><i class="fas fa-newspaper text-success"></i> Newsletter</Strong> {{ auth()->user()->subscribe }}</li>
                         </ul>
-                        
                     </div>
                     
                     <div class="profile">
@@ -79,7 +88,12 @@
                     </div>
                     <hr>
                     <div class="pfoot">
-                        <a class="btn btn-success" href="users/{{ auth()->user()->id }}/edit" id="edbtn"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="/logout" class="btn btn-light">
+                            Logout <i class="fas fa-sign-out-alt"></i>
+                        </a> | 
+                        <a class="btn btn-primary" href="users/{{ auth()->user()->id }}/edit" id="edbtn">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
                     </div>
                 </div>
             </div>

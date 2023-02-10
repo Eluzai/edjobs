@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Dotenv\Parser\Value;
-use Mail;
+use App\Mail;
 use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
@@ -23,7 +23,7 @@ class UserController extends Controller
             $user->firstname = $request->fname;
             $user->lastname = $request->lname;
             $user->email = $request->email;
-            $user->image = 'default';
+            $user->image = 'storage/profile_images/placeholder.png';
             if ($request->has('subscribe')) {
                 $user->subscribe = 'subscribed';
             }else {
@@ -31,6 +31,7 @@ class UserController extends Controller
             }
             $user->password = bcrypt($request->password);
             $user->save();
+
             // Mail::send('email.emailVerificationEmail', ['token' => $token], function($message) use($request){
             //     $message->to($request->email);
             //     $message->subject('Email Verification Mail');
@@ -70,6 +71,7 @@ class UserController extends Controller
 
     //update user data
     public function update(Request $request, User $user){
+        //dd($request->password);
         if ($user->id != auth()->user()->id) {
             abort('403','Unauthorized Action');
         }
@@ -95,6 +97,8 @@ class UserController extends Controller
                     $request->file('formFile')->storeAs('public/profile_images', $new_name);
                     $formFields['image'] = 'storage/profile_images/'.$new_name;
                 }
+            } else {
+                return response()->json([ [0] ]);
             }
         }
         if ($request->has('subscribe')) {
