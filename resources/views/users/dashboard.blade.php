@@ -1,3 +1,4 @@
+@props(['listings, companys'])
 <style>
     .profile{
         float: left;
@@ -71,6 +72,20 @@
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                     <h4 class="mb-4"> Post</h4>
                     <strong> Job listing </strong><hr>
+                    <table class="table">
+                        <tr>
+                            <th>S/N</th>
+                            <th>Company</th>
+                            <th>Action</th>
+                        </tr>
+                        @foreach ($listings as $listing)
+                            <tr>
+                                <td>{{ $listing->id }}</td>
+                                <td>{{ $listing->city }}</td>
+                                <td>List | Delist</td>
+                            </tr>
+                        @endforeach
+                    </table>
                     <strong> Company </strong><hr>
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">

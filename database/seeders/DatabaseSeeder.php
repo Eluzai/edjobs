@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 Use \App\Models\User;
 Use \App\Models\Listing;
 Use \App\Models\Company;
+Use \App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,10 +29,16 @@ class DatabaseSeeder extends Seeder
         $company = Company::factory()->create([
             'city' => 'Jabi',
             'state' => 'Abuja',
+            'user_id' => $user->id,
+        ]);
+        $category = Category::factory()->create([
+            'title' => 'High School',
+            'description' => 'Higher primary education'
         ]);
         Listing::factory()->create([
             'user_id' => $user->id,
-            'company_id' => $company->id
+            'company_id' => $company->id,
+            'category_id' => $category->id
         ]);
 
         // \App\Models\User::factory()->create([

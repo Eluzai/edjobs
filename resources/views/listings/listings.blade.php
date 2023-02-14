@@ -1,11 +1,9 @@
 <x-layout>
-
-    @include('partials._hero')
     @include('partials._search')
     <!-- Jobs Start -->
     <div class="container-xxl py-5">
         <div class="container">
-            <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Latest Jobs</h1>
+            <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Open Job Post</h1>
             <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                 {{-- <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                     <li class="nav-item">
@@ -33,14 +31,14 @@
                             <x-listing-card :listing="$listing"/>
                             @endforeach
                         @endif
-                        <a class="btn btn-light py-3 px-5" href="/listings">All Listing</a>
                     </div>
+                </div>
+                <div class="tab-content">
+                    {{ $listings->links() }}
                 </div>
             </div>
         </div>
     </div>
     <!-- Jobs End -->
-    @include('partials._categories')
-    @include('partials._about')
 
 </x-layout>

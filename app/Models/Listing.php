@@ -16,9 +16,7 @@ class Listing extends Model
     //     if(($filters['search']) ?? false){
     //         $query->where('title','like','%' . request('search') . '%')
     //         ->orwhere('description','like','%' . request('search') . '%')
-    //         ->orwhere('tags','like','%' . request('search') . '%')
-    //         ->orwhere('location','like','%' . request('search') . '%')
-    //         ->orwhere('company','like','%' . request('search') . '%');
+    //         ->orwhere('work_type','like','%' . request('search') . '%');
     //     }
     // }
 

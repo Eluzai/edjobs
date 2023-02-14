@@ -19,68 +19,91 @@
 </style>
 <x-layout>
     <div class="col-md-4" style="width: 50%; margin: 3em auto;">
-        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Update Account Info</h1>
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Information</h1>
         <div class="wow fadeInUp" data-wow-delay="0.5s">
             <div id="edBlock">
-                
+                <a href="/company" class="btn btn-light">Add Company </a>
                 <div id="logmsg"></div>
-                <form method="POST" action="/users/{{ $user->id }}" id="edForm" enctype="multipart/form-data">
+                <form method="POST" action="" id="jobForm" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
-                    <div class="profile">
-                        <center>
-                            <img class="img-fluid" src="{{ asset(auth()->user()->image) }}" id="imgPreview">
-                        </center>
-                        <hr>
-                    </div>
                     <div class="row g-3">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="fname" id="fname" value={{ auth()->user()->firstname }}>
-                                <label for="fname">First Name</label>
+                                <input type="text" class="form-control" name="job_title" id="job_title" placeholder="Job Title">
+                                <label for="job_title">Job Title</label>
                             </div>
-                            <div id="fname-msg"></div>
+                            <div id="title-msg"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <textarea name="editor" id="editor" placeholder="Job Descrition"></textarea>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="lname" id="lname" value={{ auth()->user()->lastname }}>
-                                <label for="lname">Last Name</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>-Select company-</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                                
+                                <label for="fname">Company</label>
                             </div>
-                            <div id="lname-msg"></div>
+                            <div id="title-msg"></div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="email" class="form-control" name="email" id="email" value={{ auth()->user()->email }}>
-                                <label for="email">Email</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>-Choose Work type-</option>
+                                    <option value="1">Full-time | Onsite</option>
+                                    <option value="2">Full-time | Remote</option>
+                                    <option value="1">Full-time | Hybrid</option>
+                                    <option value="1">Part-time | Onsite</option>
+                                    <option value="2">Part-time | Remote</option>
+                                    <option value="1">Part-time | Hybrid</option>
+                                </select>
+                                <label for="fname">Work type</label>
                             </div>
-                            <div id="mail-msg"></div>
+                            <div id="title-msg"></div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="file" class="form-control" name="formFile" id="formFile" placeholder="profile photo">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>-Job City-</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                                
+                                <label for="fname">City</label>
                             </div>
-                            <div id="pix-msg"></div>
+                            <div id="title-msg"></div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="********">
-                                <label for="password">Password</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>-Job State-</option>
+                                    <option value="1">Full-time | Onsite</option>
+                                    <option value="2">Full-time | Remote</option>
+                                    <option value="1">Full-time | Hybrid</option>
+                                    <option value="1">Part-time | Onsite</option>
+                                    <option value="2">Part-time | Remote</option>
+                                    <option value="1">Part-time | Hybrid</option>
+                                </select>
+                                <label for="fname">State</label>
                             </div>
-                            <div id="pword-msg"></div>
+                            <div id="title-msg"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="password" class="form-control" name="rpassword" id="rpassword" placeholder="********">
-                                <label for="rpassword">Confirm Password</label>
+                                <input type="text" class="form-control" name="tag" id="tag" placeholder="job,category,tag">
+                                <label for="tag">Listing Tags</label>
                             </div>
+                            <div id="title-msg"></div>
                         </div>
                         <div class="col-12">
-                            <div class="form-floating">
-                                <input class="form-check-input" type="checkbox" name="subscribe" id="flexCheckDefault"> Notify me on latest job posts
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary w-100 py-3" type="submit" id="btnsave" name="btnsave"> <i class="fas fa-save"></i> Save</button>
+                            <button class="btn btn-primary w-100 py-3" type="submit" id="btnsave" name="btnsave"> <i class="fas fa-plus"></i> Create job post</button>
                         </div>
                     </div>
                 </form>
@@ -90,29 +113,6 @@
 </x-layout>
 <script>
     $(document).ready(function(){
-        // image preview
-        $("#formFile").change(function(){
-            let reader = new FileReader();
-            var file = this.files[0];
-            var fileType = file["type"];
-            var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-            if ($.inArray(fileType, validImageTypes) < 0) {
-                $('#pix-msg').html('image must be (jpg, png, gif)');
-                $('#pix-msg').addClass('err');
-            } else{ 
-                reader.onload = (e) => {
-                    $('#pix-msg').html('');
-                    $("#imgPreview").attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-                var src = $('img').attr('src'); // "static/images/banner/blue.jpg"
-                var tarr = src.split('/');      // ["static","images","banner","blue.jpg"]
-                var file = tarr[tarr.length-1]; // "blue.jpg"
-                var data = file.split('.')[0];  // "blue"
-                console.log(data);
-            }
-        })
-        
         $("#btnsave").click(function(){
             if ($('#fname').val()=='') {
                 $('#fname').addClass('has-err');
@@ -159,7 +159,7 @@
                 });
                 $.ajax({
                     type: "POST", // form method
-                    url: "/users/{{ $user->id }}", // form action
+                    url: "", // form action
                     data: fd, // form data
                     success: function(response){ // A function to be called if request succeeds
                         if (response == 1) {
@@ -181,4 +181,23 @@
         var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         return regex.test(email);
     }
+
+</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+<script> 
+    ClassicEditor
+        .create( document.querySelector( '#editor' ), {
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+                ]
+            }
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
 </script>

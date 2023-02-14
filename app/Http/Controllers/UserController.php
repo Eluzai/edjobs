@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Listing;
+use App\Models\Company;
 use Dotenv\Parser\Value;
 use App\Mail;
 use Illuminate\Support\Facades\File;
@@ -31,11 +33,6 @@ class UserController extends Controller
             }
             $user->password = bcrypt($request->password);
             $user->save();
-
-            // Mail::send('email.emailVerificationEmail', ['token' => $token], function($message) use($request){
-            //     $message->to($request->email);
-            //     $message->subject('Email Verification Mail');
-            // });
             auth()->login($user);
             return 1;
         }
@@ -59,7 +56,12 @@ class UserController extends Controller
 
     //show user dashboard 
     public function dashboard(){
-        return view('users.dashboard');
+        $listings = Listing::where();
+        $companys = Company::all();
+        return view('users.dashboard',[
+            'listings'=>$listings,
+            'companys'=>$companys
+        ]);
     }
 
     //show user dashboard 

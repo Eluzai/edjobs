@@ -20,11 +20,11 @@ class ListingFactory extends Factory
             'title' => fake()->sentence(),
             'description' => fake()->text($maxNbChars = 300),	
             'work_type' => fake()->word(),
+            'vacancy' => fake()->numberBetween(0, 100),
             'tag' => 'Maths, Remote, IGSCE',
             'city' => fake()->word(),	
             'state' => fake()->word(),
-            'responsibility' => fake()->text($maxNbChars = 300),	
-            'qualification' => fake()->text($maxNbChars = 300),
+            'status' => fake()->word(),
         ];
     }
 }

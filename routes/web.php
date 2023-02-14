@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
@@ -26,11 +27,12 @@ use Illuminate\Support\Facades\Auth;
 //destroy - Delete listing
 
 
-Route::get('/', [ListingController::class, 'index']);
 
-Route::get('/details', function () {
-    return view('details');
-});
+Route::get('/', [HomeController::class, 'index']);
+//Show all listings
+Route::get('/listings', [ListingController::class, 'index']);
+//Show job description
+Route::get('/details/{listing}', [ListingController::class, 'detail']);
 
 //////////////////////User Signup Routes//////////////////////////////
 
@@ -59,5 +61,17 @@ Route::put('/users/{user}', [UserController::class, 'update'])->name('user_updat
 
 //log out
 Route::get('/logout', [UserController::class,'logout'])->middleware('auth');
+
+//Show post job
+Route::get('/jobpost', [ListingController::class,'jobpost'])->middleware('auth');
+
+//Store post job
+Route::post('/jobpost', [ListingController::class,'store'])->middleware('auth');
+
+//Show post job
+Route::get('/company', [CompanyController::class,'create'])->middleware('auth');
+
+//Show post job
+Route::post('/company', [CompanyController::class,'store'])->middleware('auth');
 
 

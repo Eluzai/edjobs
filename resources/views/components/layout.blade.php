@@ -42,6 +42,7 @@
         <!-- Spinner End -->
 
         <!-- Navbar Start -->
+        
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
             <a href="/" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
                 <h1 class="m-0 text-primary">edJobs</h1>
@@ -54,11 +55,11 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Browse Jobs </a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="category.html" class="dropdown-item">All Jobs</a>
-                            <a href="testimonial.html" class="dropdown-item">By Category</a>
+                            <a href="/listings" class="dropdown-item">All Jobs</a>
+                            <a href="/category" class="dropdown-item">By Category</a>
                         </div>
                     </div>
-                    <a href="/listings/manage" class="nav-item nav-link">
+                    <a href="/faq" class="nav-item nav-link">
                         Using Edjobs <i class="fab fa-solid fa-book"></i> 
                     </a> 
                     @auth
@@ -95,7 +96,7 @@
                     
                     
                 </div>
-                <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+                <a href="/jobpost" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
             </div>
         </nav>
         <!-- Navbar End -->
